@@ -4,21 +4,22 @@ let typeURL = "https://pokeapi.co/api/v2/type";
 async function getPokemonTypes(id) {
     let response = await fetch(`${pokemonURL}/${id}`);
     let data = await response.json();
-    let pokeTypes = getTypes(data);  
+    let pokeTypes = getTypes(data);
     return pokeTypes;
-}
-function getTypes(pokemon) {
-    let types = [];
-    for (let i = 0; i < pokemon.types.length; i++) {
-        types.push(pokemon.types[i].type.name);
-    }
-    return types;
 }
 
 async function getDamageRelations(myType) {
     let response = await fetch(`${typeURL}/${myType}`);
     let data = await response.json();
     return data;
+}
+
+function getTypes(pokemon) {
+    let types = [];
+    for (let i = 0; i < pokemon.types.length; i++) {
+        types.push(pokemon.types[i].type.name);
+    }
+    return types;
 }
 
 function damageModifiers(typeData) {
@@ -38,7 +39,7 @@ function damageModifiers(typeData) {
     return typeMatchUp;
 }
 
-function getTypeMatchUp () {
+function getTypeMatchUp() {
     return {
         "normal": 1,
         "fighting": 1,
@@ -60,12 +61,14 @@ function getTypeMatchUp () {
         "fairy": 1
     }
 }
+function testingFunction() {
 
-function testingFunction2(typeMatchUp) {
+}
+function combiningMatchUps(typeMatchUp) {
     let pokemonTypeMatchUpCombined = {};
     if (typeMatchUp.length == 2) {
         for (const key in typeMatchUp[0]) {
-            pokemonTypeMatchUpCombined[key] = typeMatchUp[0][key]*typeMatchUp[1][key];
+            pokemonTypeMatchUpCombined[key] = typeMatchUp[0][key] * typeMatchUp[1][key];
         }
     } else {
         for (const key in typeMatchUp[0]) {
@@ -74,48 +77,29 @@ function testingFunction2(typeMatchUp) {
     }
     return pokemonTypeMatchUpCombined;
 }
-export function getPokemonTypeMatchups(pokemon) {
-    
-    let typeMatchUp = [];    
-    let pokemonTypeMatchUp =  {
+export function getPokemonTypeMatchups(pokemon, pokemonNumber) {
+
+    let typeMatchUpModifiers = [];
+    let typeMatchIndividual = [];
+    let pokemonTypeMatchUp = {
         "name": pokemon,
         "types": [],
         "weakness": getTypeMatchUp()
     }
-    let pokeTypes = getPokemonTypes(pokemon);
-
-    let typeMatchIndividual = [];
-    for (let i = 0; i <  pokemonTypeMatchUp.types.length; i++) {
-        typeMatchIndividual[i] = getDamageRelations(pokemonTypeMatchUp.types[i]);
-    }
-
-    for (let i = 0; i < typeMatchIndividual.length; i++) {
-        typeMatchUp[i] = damageModifiers(typeMatchIndividual[i]);            
-    }
-    pokemonTypeMatchUp.weakness = testingFunction2(typeMatchUp)
-    //console.log(pokemonTypeMatchUp); 
-    console.log(pokemonTypeMatchUp);
-
-    return pokemonTypeMatchUp;
-}
-
- function startHere(pokemon) {
-    let pokemonTypeMatchUp = [];
-    for (let i = 0; i < 6; i++) {
-        pokemonTypeMatchUp[i] = getPokemonTypeMatchups(pokemon[i]);
-    }
-   console.log(pokemonTypeMatchUp);
-    // Promise.all(pokemonTypeMatchUp).then((pokemonTypeMatchUp) => {console.log(pokemonTypeMatchUp)});
-}
-
-async function getPokemonStuff(myPokemon) {
-    const response = await fetch(`${pokemonURL}/${myPokemon}`);
-    const pokemonDeets = await response.json;
-    const pokemonTypes = getTypes(pokemonDeets)
-    const pokemonTypeInfo = [];
-    for (const i = 0; i < pokemonTypes.length; i++) {
-        const response = await fetch(`${typeURL}/${pokemonTypes[i]}`);
-        const typeData = await response.json();
-        pokemonTypeInfo.push(typeData);
-    }
+    let pokeTypes = Promise.resolve(getPokemonTypes(pokemon));
+    pokeTypes.then((pokeTypes) => {
+        pokemonTypeMatchUp.types = pokeTypes;
+        for (let i = 0; i < pokemonTypeMatchUp.types.length; i++) {
+            typeMatchIndividual[i] = getDamageRelations(pokemonTypeMatchUp.types[i]);
+        }
+        Promise.all(typeMatchIndividual).then((typeMatchIndividual) => {
+            for (let i = 0; i < typeMatchIndividual.length; i++) {
+                typeMatchUpModifiers[i] = damageModifiers(typeMatchIndividual[i]);
+            }
+            pokemonTypeMatchUp.weakness = combiningMatchUps(typeMatchUpModifiers);
+            document.getElementById("output"+pokemonNumber).innerHTML = "Information Loaded";  
+            document.getElementById("storeData"+pokemonNumber).innerHTML = JSON.stringify(pokemonTypeMatchUp);
+            return pokemonTypeMatchUp;
+        })
+    });
 }

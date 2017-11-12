@@ -11,6 +11,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "fetch-node": "0.0.1",
     "lodash": "^4.17.4",
     "node-fetch": "^1.7.3",
     "open": "0.0.5",

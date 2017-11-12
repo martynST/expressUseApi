@@ -5,7 +5,7 @@
         Find team weekness
     </title>
     <script src="index.js" type="module"></script>
-    
+
 </head>
 
 <body>
@@ -14,45 +14,75 @@
         <tr>
             <td>Pokemon 1</td>
             <td>
-                <input type='text' id='pokemon1' value = 'chandelure'>
+                <input type='text' id='pokemon1' value='chandelure'>
+            </td>
+            <td>
+                <p id="output1"></p>
             </td>
         </tr>
         <tr>
             <td>Pokemon 2</td>
             <td>
-                <input type='text' id='pokemon2' value = 'dusknoir'>
+                <input type='text' id='pokemon2' value='dusknoir'>
+            </td>
+            <td>
+                <p id="output2"></p>
             </td>
         </tr>
         <tr>
             <td>Pokemon 3</td>
             <td>
-                <input type='text' id='pokemon3' value = 'dragonite'>
+                <input type='text' id='pokemon3' value='dragonite'>
+            </td>
+            <td>
+                <p id="output3"></p>
             </td>
         </tr>
         <tr>
             <td>Pokemon 4</td>
             <td>
-                <input type='text' id='pokemon4' value = 'weavile'>
+                <input type='text' id='pokemon4' value='weavile'>
+            </td>
+            <td>
+                <p id="output4"></p>
             </td>
         </tr>
         <tr>
             <td>Pokemon 5</td>
             <td>
-                <input type='text' id='pokemon5' value = 'gardevoir'>
+                <input type='text' id='pokemon5' value='gardevoir'>
+            </td>
+            <td>
+                <p id="output5"></p>
             </td>
         </tr>
         <tr>
             <td>Pokemon 6</td>
             <td>
-                <input type='text' id='pokemon6' value = 'jirachi'>
+                <input type='text' id='pokemon6' value='jirachi'>
+            </td>
+            <td>
+                <p id="output6"></p>
             </td>
         </tr>
         <tr>
             <td></td>
-            <td><button type = 'button' onclick = 'getTeamTypes()'>Submit</button></td>
+            <td>
+                <button type='button' onclick='getTeamTypes()'>Submit</button>
+            </td>
+            <td>
+                <button type='button' onclick='findWeaknesse()'>Find Weaknesses</button>
+            </td>
         </tr>
     </table>
-    <p id = 'teamWeeknesses'></p>
+    <p id='teamWeeknesses'></p>
+    <p hidden id = "storeData1"></p>
+    <p hidden id = "storeData2"></p>
+    <p hidden id = "storeData3"></p>
+    <p hidden id = "storeData4"></p>
+    <p hidden id = "storeData5"></p>
+    <p hidden id = "storeData6"></p>
+    
 </body>
 
 </html>
